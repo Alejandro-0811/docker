@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  flask_app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - CONNECTION_STRING=Driver={ODBC Driver 18 for SQL Server};Server=mssql_db,1433;Database=Flask_SF;Uid=sa;Pwd=your_password_here;
+    depends_on:
+      - mssql_db
+
+  mssql_db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "engraciacosme123"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+volumes:
+  mssql_data:
